@@ -15,6 +15,7 @@ export const navItems = [
   //   link: "/cart",
   //   name: "Cart",
   // },
+  //
   {
     link: "/login",
     name: "Login",

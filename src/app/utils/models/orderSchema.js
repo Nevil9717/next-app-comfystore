@@ -1,12 +1,6 @@
 import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema({
-  // user: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: "User",
-  //   required: true,
-  // },
-  //
   orderItems: [
     {
       productName: { type: String, required: true },
@@ -33,10 +27,12 @@ const orderSchema = new mongoose.Schema({
     zipCode: { type: String, required: true },
   },
   paymentMethod: {
-    cardNumber: { type: Number, required: true },
+    cardNumber: { type: String, required: true },
     exp: { type: String, required: true },
     cvv: { type: Number, required: true },
   },
 });
+
 const Order = mongoose.models.Order || mongoose.model("Order", orderSchema);
+
 export default Order;

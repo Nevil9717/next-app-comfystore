@@ -1,4 +1,4 @@
-import { Order } from "../../../utils/models";
+import { Cart, Order } from "../../../utils/models";
 
 const getOrders = async () => {
   try {
@@ -19,7 +19,6 @@ const getSingleOrder = async (_, { _id }) => {
   }
 };
 const createOrder = async (_, { input }) => {
-  console.log("🚀 ~ createOrder ~ input:", input);
   try {
     const order = await Order.create(input);
     return order;

@@ -9,12 +9,17 @@ import {
   DELETE_FROM_CART,
   UPDATE_CART,
 } from "../../apollo/client/mutation/productMutation";
+import { redirectToCheckout } from "../../api/stripe";
+import { CREATE_SESSION_ID } from "../../apollo/client/mutation/userMutation";
+
 const Cart = () => {
   const { data, loading, error, refetch } = useQuery(GET_CART);
   const [deleteFromCart] = useMutation(DELETE_FROM_CART);
   const [updateCartQuantity] = useMutation(UPDATE_CART);
   const [clearCart] = useMutation(CLEAR_CART);
+  const [createPaymentSession] = useMutation(CREATE_SESSION_ID);
   const router = useRouter();
+  let cartItems = [];
   const handleDelete = (productId) => {
     deleteFromCart({
       variables: {
@@ -25,6 +30,15 @@ const Cart = () => {
     });
   };
   useEffect(() => {
+    cartData?.getCart?.map((item) => {
+      cartItems.push({
+        productId: item.productId,
+        productImage: item.productImage,
+        productName: item.productName,
+        productPrice: item.productPrice,
+        productQuantity: item.productQuantity,
+      });
+    });
     refetch();
   }, [data]);
   const handlePlus = (productId, productQuantity) => {
@@ -58,6 +72,11 @@ const Cart = () => {
         refetch();
       });
     }
+  };
+  const handleCheckout = async () => {
+    const createdSessionID = await createPaymentSession();
+    const sessionId = createdSessionID?.data?.createPaymentSession?.sessionId;
+    redirectToCheckout(sessionId);
   };
 
   if (loading) return <p>Loading...</p>;
@@ -164,9 +183,7 @@ const Cart = () => {
               </div>
               <button
                 className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600"
-                onClick={() => {
-                  router.push("/checkout");
-                }}
+                onClick={handleCheckout}
               >
                 Check out
               </button>

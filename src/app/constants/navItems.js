@@ -19,7 +19,7 @@ export const navItems = [
   //
   //
   {
-    link: "/login",
+    link: "/signin",
     name: "Login",
   },
 ];

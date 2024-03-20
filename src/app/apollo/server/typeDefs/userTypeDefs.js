@@ -28,7 +28,6 @@ export const userTypeDefs = gql`
     email: String!
     gender: genderOptions
     password: String
-    role: ID
   }
   input loginInput {
     email: String!
@@ -41,6 +40,9 @@ export const userTypeDefs = gql`
   type loginResult {
     token: String
   }
+  type PaymentSession {
+    sessionId: String
+  }
 
   type Query {
     getUsers: [User]
@@ -49,5 +51,6 @@ export const userTypeDefs = gql`
     loginUser(input: loginInput): loginResult
     createUser(input: UserInput): User
     verifyUser(input: verifyInput): User
+    createPaymentSession: PaymentSession
   }
 `;

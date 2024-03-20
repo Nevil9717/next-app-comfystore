@@ -25,9 +25,9 @@ const page = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const handleOnSubmit = async (data) => {
-    // const { sessionId } = await createCheckoutSession();
-    // redirectToCheckout(sessionId);
+  const onSubmit = async (data) => {
+    const { sessionId } = await createCheckoutSession();
+    redirectToCheckout(sessionId);
     // createOrder({
     //   variables: {
     //     input: {
@@ -65,15 +65,15 @@ const page = () => {
           </h2>
         </div>
         <div className="mt-12 flex">
-          <form className="w-3/4" onSubmit={handleSubmit(handleOnSubmit)}>
+          <form className="w-3/4" onSubmit={handleSubmit(onSubmit)}>
             <div className="grid md:grid-cols-3 gap-6">
-              <div>
+              {/* <div>
                 <h3 className="text-xl font-bold text-[#333]">01</h3>
                 <h3 className="text-xl font-bold text-[#333]">
                   Personal Details
                 </h3>
-              </div>
-              <div className="md:col-span-2">
+              </div> */}
+              {/* <div className="md:col-span-2">
                 <div className="grid sm:grid-cols-2 gap-5">
                   <input
                     type="text"
@@ -100,16 +100,16 @@ const page = () => {
                     {...register("phone", { required: true })}
                   />
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="grid md:grid-cols-3 gap-6 mt-12">
-              <div>
+              {/* <div>
                 <h3 className="text-xl font-bold text-[#333]">02</h3>
                 <h3 className="text-xl font-bold text-[#333]">
                   Shopping Address
                 </h3>
-              </div>
-              <div className="md:col-span-2">
+              </div> */}
+              {/* <div className="md:col-span-2">
                 <div className="grid sm:grid-cols-2 gap-5">
                   <input
                     type="text"
@@ -136,16 +136,16 @@ const page = () => {
                     {...register("zipCode", { required: true })}
                   />
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="grid md:grid-cols-3 gap-6 mt-12">
-              <div>
+              {/* <div>
                 <h3 className="text-xl font-bold text-[#333]">03</h3>
                 <h3 className="text-xl font-bold text-[#333]">
                   Payment method
                 </h3>
-              </div>
-              <div className="md:col-span-2">
+              </div> */}
+              {/* <div className="md:col-span-2">
                 <div className="grid gap-6 sm:grid-cols-2">
                   <div className="flex items-center">
                     <label
@@ -192,15 +192,15 @@ const page = () => {
                     {...register("cvv", { required: true })}
                   />
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="flex flex-wrap justify-end gap-4 mt-12">
-              <button
+              {/* <button
                 type="button"
                 className="px-6 py-3.5 text-sm bg-transparent border-2 text-[#333] rounded-md hover:bg-gray-100"
               >
                 Pay later
-              </button>
+              </button> */}
               <button
                 type="submit"
                 className="px-6 py-3.5 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700"

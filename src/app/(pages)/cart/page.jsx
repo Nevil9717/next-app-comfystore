@@ -11,6 +11,7 @@ import {
 } from "../../apollo/client/mutation/productMutation";
 import { redirectToCheckout } from "../../api/stripe";
 import { CREATE_SESSION_ID } from "../../apollo/client/mutation/stripeMutation";
+import Loader from "../../components/ui/loader";
 
 const Cart = () => {
   const { data, loading, error, refetch } = useQuery(GET_CART);
@@ -79,7 +80,7 @@ const Cart = () => {
     redirectToCheckout(sessionId);
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loader />;
   if (error) return <p>Error: {error.message}</p>;
   return (
     <div className="h-screen bg-black pt-20">

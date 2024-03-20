@@ -8,7 +8,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export function sendWelcomeEmail(email, otpCode) {
+export function sendWelcomeEmail(email, content) {
   if (!email) {
     throw new Error("Recipient's email address is not defined.");
   }
@@ -16,7 +16,7 @@ export function sendWelcomeEmail(email, otpCode) {
     from: "nevilsuvagiya9717@gmail.com",
     to: email,
     subject: "Email Verification",
-    text: `Your OTP code is: ${otpCode}`,
+    text: content,
   };
   return transporter.sendMail(mailOptions);
 }

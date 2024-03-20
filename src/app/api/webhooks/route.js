@@ -1,5 +1,4 @@
 import { verifySignature } from "stripe";
-
 const handler = async (req, res) => {
   console.log("🚀 ~ handler ~ req:", req);
   if (req.method === "POST") {
@@ -19,11 +18,12 @@ const handler = async (req, res) => {
     // Handle the event based on its type
     if (event.type === "checkout.session.completed") {
       const session = event.data.object;
-      console.log(session);
+      console.log("event.data.object", session);
     }
 
     res.status(200).json({ received: true });
   } else {
+    console.log("Method Not Allowed");
     res.setHeader("Allow", ["POST"]);
     res.status(405).end("Method Not Allowed");
   }

@@ -7,7 +7,8 @@ const createUser = async (_, { input }) => {
     const user = new User(input);
     if (!user) return new Error("User not created");
     const otpCode = Math.floor(100000 + Math.random() * 900000);
-    await sendWelcomeEmail(user.email, otpCode);
+    const content = `Your OTP Code is ${otpCode}`;
+    await sendWelcomeEmail(user.email, content);
     user.otpCode = otpCode;
     user.role = await getRole("Costumer");
     await user.save();
@@ -55,7 +56,6 @@ const loginUser = async (_, { input }) => {
     return new Error(error);
   }
 };
-
 
 export const userResolvers = {
   Query: {

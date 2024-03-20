@@ -5,6 +5,7 @@ import {
 } from "@/app/apollo/client/query/productQuery";
 import { useQuery } from "@apollo/client";
 import React from "react";
+import Loader from "./loader";
 
 const Sidebar = () => {
   const { data: brandData, loading, error } = useQuery(GET_ALL_BRANDS);
@@ -13,8 +14,8 @@ const Sidebar = () => {
     loading: catagoriesLoading,
     error: catagoriesError,
   } = useQuery(GET_ALL_CATEGORIES);
-  
-  if (loading || catagoriesLoading) return <p>Loading...</p>;
+
+  if (loading || catagoriesLoading) return <Loader />;
   if (error || catagoriesError)
     return <p>Error: {error ? error.message : catagoriesError.message}</p>;
 

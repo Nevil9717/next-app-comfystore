@@ -1,7 +1,9 @@
 "use client";
+import { useMutation } from "@apollo/client";
 import Link from "next/link";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { SIGN_UP_USER } from "../../../apollo/client/mutation/userMutation";
 
 const page = () => {
   const {
@@ -10,6 +12,7 @@ const page = () => {
     formState: { errors },
   } = useForm();
 
+  const [createUser] = useMutation(SIGN_UP_USER);
   const onSubmit = async (data) => {
     console.log("🚀 ~ onSubmit ~ data:", data);
   };

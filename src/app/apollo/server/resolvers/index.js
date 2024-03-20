@@ -6,6 +6,7 @@ import { colorResolvers } from "./colorResolvers";
 import { cartResolvers } from "./cartResolvers";
 import { orderResolvers } from "./orderResolvers";
 import { userResolvers } from "./userResolvers";
+import { stripeResolvers } from "./stripeResolvers";
 
 const resolvers = mergeResolvers([
   productResolvers,
@@ -15,6 +16,7 @@ const resolvers = mergeResolvers([
   cartResolvers,
   orderResolvers,
   userResolvers,
+  stripeResolvers,
 ]);
 
 export default resolvers;

@@ -1,4 +1,4 @@
-import { Cart, Order } from "../../../utils/models";
+import { Order } from "../../../utils/models";
 
 const getOrders = async () => {
   try {

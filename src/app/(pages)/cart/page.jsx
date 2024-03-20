@@ -10,7 +10,7 @@ import {
   UPDATE_CART,
 } from "../../apollo/client/mutation/productMutation";
 import { redirectToCheckout } from "../../api/stripe";
-import { CREATE_SESSION_ID } from "../../apollo/client/mutation/userMutation";
+import { CREATE_SESSION_ID } from "../../apollo/client/mutation/stripeMutation";
 
 const Cart = () => {
   const { data, loading, error, refetch } = useQuery(GET_CART);
@@ -19,7 +19,7 @@ const Cart = () => {
   const [clearCart] = useMutation(CLEAR_CART);
   const [createPaymentSession] = useMutation(CREATE_SESSION_ID);
   const router = useRouter();
-  let cartItems = [];
+  // let cartItems = [];
   const handleDelete = (productId) => {
     deleteFromCart({
       variables: {
@@ -30,15 +30,15 @@ const Cart = () => {
     });
   };
   useEffect(() => {
-    cartData?.getCart?.map((item) => {
-      cartItems.push({
-        productId: item.productId,
-        productImage: item.productImage,
-        productName: item.productName,
-        productPrice: item.productPrice,
-        productQuantity: item.productQuantity,
-      });
-    });
+    // data?.getCart?.map((item) => {
+    //   cartItems.push({
+    //     productId: item.productId,
+    //     productImage: item.productImage,
+    //     productName: item.productName,
+    //     productPrice: item.productPrice,
+    //     productQuantity: item.productQuantity,
+    //   });
+    // });
     refetch();
   }, [data]);
   const handlePlus = (productId, productQuantity) => {

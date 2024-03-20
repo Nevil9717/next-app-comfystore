@@ -14,10 +14,4 @@ export const SIGN_IN_USER = gql`
     }
   }
 `;
-export const CREATE_SESSION_ID = gql`
-  mutation CreatePaymentSession {
-    createPaymentSession {
-      sessionId
-    }
-  }
-`;
+

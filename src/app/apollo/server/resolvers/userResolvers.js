@@ -1,7 +1,6 @@
 import getRole from "../../../utils/getRole";
 import { User } from "../../../utils/models";
 import { sendWelcomeEmail } from "../../../utils/sendEmail";
-import { stripe } from "../../../../lib/stripe";
 
 const createUser = async (_, { input }) => {
   try {
@@ -56,32 +55,7 @@ const loginUser = async (_, { input }) => {
     return new Error(error);
   }
 };
-const createPaymentSession = async () => {
-  try {
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      line_items: [
-        {
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: "Product Name",
-            },
-            unit_amount: 2000, // in cents
-          },
-          quantity: 1,
-        },
-      ],
-      mode: "payment",
-      success_url: `${process.env.CLIENT_URL}/success`,
-      cancel_url: `${process.env.CLIENT_URL}/cancel`,
-    });
-    return { sessionId: session.id };
-  } catch (error) {
-    console.error(error);
-    return new Error("Failed to create session");
-  }
-};
+
 
 export const userResolvers = {
   Query: {
@@ -92,6 +66,5 @@ export const userResolvers = {
     loginUser,
     createUser,
     verifyUser,
-    createPaymentSession,
   },
 };

@@ -14,3 +14,18 @@ export const SIGN_IN_USER = gql`
     }
   }
 `;
+export const VERIFY_USER = gql`
+  mutation VerifyUser($input: verifyInput) {
+    verifyUser(input: $input) {
+      isVerified
+      firstName
+    }
+  }
+`;
+export const RESEND_OTP = gql`
+  mutation ResendOTP($email: String) {
+    resendOTP(email: $email) {
+      otpCode
+    }
+  }
+`;

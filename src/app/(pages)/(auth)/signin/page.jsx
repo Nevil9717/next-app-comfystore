@@ -2,16 +2,24 @@
 import Link from "next/link";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { SIGN_IN_USER } from "../../../apollo/client/mutation/userMutation";
+import { useMutation } from "@apollo/client";
 
 const page = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const [loginUser] = useMutation(SIGN_IN_USER);
 
   const onSubmit = async (data) => {
-    console.log("🚀 ~ onSubmit ~ data:", data);
+    loginUser({ variables: { input: data } }).then((res) => {
+      localStorage.setItem("token", res?.data?.loginUser?.token);
+      router.push("/");
+    });
   };
   return (
     <div className="font-[sans-serif] text-[#333] mt-4 p-4 relative">
@@ -55,7 +63,7 @@ const page = () => {
                 href="/signup"
                 className="text-blue-600 font-semibold hover:underline ml-1"
               >
-                Login here
+                SignUp here
               </Link>
             </p>
           </form>

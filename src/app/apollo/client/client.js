@@ -13,18 +13,18 @@ const httpLink = createHttpLink({
 // Middleware to set the authorization header if needed
 const authLink = setContext((_, { headers }) => {
   // Add your authorization logic here, if applicable
-  // const token = localStorage.getItem('accessToken') || '';
+  const token = localStorage.getItem("token") || "";
   return {
     headers: {
       ...headers,
-      // Authorization: token ? `Bearer ${token}` : '',
+      Authorization: token,
     },
   };
 });
 
 // Create the Apollo Client
 const client = new ApolloClient({
-  link: httpLink,
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 

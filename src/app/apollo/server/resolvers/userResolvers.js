@@ -10,7 +10,7 @@ const createUser = async (_, { input }) => {
     const content = `Your OTP Code is ${otpCode}`;
     await sendWelcomeEmail(user.email, content);
     user.otpCode = otpCode;
-    user.role = await getRole("Costumer");
+    user.role = await getRole("Customer");
     await user.save();
     return user;
   } catch (error) {
@@ -42,6 +42,21 @@ const getUsers = async () => {
     return new Error(error);
   }
 };
+const resendOTP = async (_, { email }) => {
+  console.log("🚀 ~ resendOTP ~ email:", email);
+  try {
+    const user = await User.findOne({ email });
+    if (!user) return new Error("User not found");
+    const otpCode = Math.floor(100000 + Math.random() * 900000);
+    const content = `Your OTP Code is ${otpCode}`;
+    await sendWelcomeEmail(user.email, content);
+    user.otpCode = otpCode;
+    await user.save();
+    return user;
+  } catch (error) {
+    return new Error(error);
+  }
+};
 
 const loginUser = async (_, { input }) => {
   const { email, password } = input;
@@ -66,5 +81,6 @@ export const userResolvers = {
     loginUser,
     createUser,
     verifyUser,
+    resendOTP,
   },
 };

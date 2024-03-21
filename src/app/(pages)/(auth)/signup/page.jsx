@@ -1,11 +1,12 @@
 "use client";
 import { useMutation } from "@apollo/client";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { SIGN_UP_USER } from "../../../apollo/client/mutation/userMutation";
 
 const page = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -14,7 +15,9 @@ const page = () => {
 
   const [createUser] = useMutation(SIGN_UP_USER);
   const onSubmit = async (data) => {
-    console.log("🚀 ~ onSubmit ~ data:", data);
+    createUser({ variables: { input: data } }).then((res) => {
+      router.push(`/verifyemail/${data.email}`);
+    });
   };
   return (
     <div className="font-[sans-serif] text-[#333] mt-4 p-4 relative">

@@ -47,5 +47,6 @@ export const userTypeDefs = gql`
     loginUser(input: loginInput): loginResult
     createUser(input: UserInput): User
     verifyUser(input: verifyInput): User
+    resendOTP(email: String): User
   }
 `;

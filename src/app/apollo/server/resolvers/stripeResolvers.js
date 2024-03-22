@@ -17,10 +17,10 @@ const createPaymentSession = async () => {
         quantity: item.productQuantity,
       })),
       mode: "payment",
-      success_url: `${process.env.CLIENT_URL}/success`,
+      // success_url: `${process.env.CLIENT_URL}/success`,
+      success_url: `${process.env.NGROK_URL}/success`,
       cancel_url: `${process.env.CLIENT_URL}/cancel`,
     });
-    // console.log("🚀 ~ createPaymentSession ~ session:", session);
     return { sessionId: session.id };
   } catch (error) {
     console.error(error);

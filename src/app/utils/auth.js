@@ -1,5 +1,5 @@
 import { User } from "./models";
-import { getRole } from "./getRole";
+import getRole from "./getRole";
 import { skip } from "graphql-resolvers";
 
 export const isAdmin = async (_, args, { user }) => {

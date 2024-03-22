@@ -1,3 +1,5 @@
+import { combineResolvers } from "graphql-resolvers";
+import { isAdmin } from "../../../utils/auth";
 import getRole from "../../../utils/getRole";
 import { User } from "../../../utils/models";
 import { sendWelcomeEmail } from "../../../utils/sendEmail";
@@ -31,7 +33,7 @@ const verifyUser = async (_, { input }) => {
   }
 };
 
-const getUsers = async () => {
+const getUsers = combineResolvers(isAdmin, async () => {
   try {
     const users = await User.find({
       role: { $ne: await getRole("Admin") },
@@ -41,7 +43,7 @@ const getUsers = async () => {
   } catch (error) {
     return new Error(error);
   }
-};
+});
 const resendOTP = async (_, { email }) => {
   console.log("🚀 ~ resendOTP ~ email:", email);
   try {

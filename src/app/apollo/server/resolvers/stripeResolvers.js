@@ -11,15 +11,20 @@ const createPaymentSession = async () => {
           currency: "usd",
           product_data: {
             name: item.productName,
+            images: [item.productImage],
           },
           unit_amount: item.productPrice * 100, // in cents
         },
         quantity: item.productQuantity,
       })),
       mode: "payment",
+      metadata: {
+        userId: "12345",
+      },
       // success_url: `${process.env.CLIENT_URL}/success`,
+      // cancel_url: `${process.env.CLIENT_URL}/cancel`,
       success_url: `${process.env.NGROK_URL}/success`,
-      cancel_url: `${process.env.CLIENT_URL}/cancel`,
+      cancel_url: `${process.env.NGROK_URL}/cancel`,
     });
     return { sessionId: session.id };
   } catch (error) {
@@ -27,23 +32,6 @@ const createPaymentSession = async () => {
     return new Error("Failed to create session");
   }
 };
-// const webhook = async () => {
-//   try {
-//     const event = stripe.webhooks.constructEvent(
-//       req.body,
-//       req.headers["stripe-signature"],
-//       process.env.STRIPE_WEBHOOK_SECRET
-//     );
-//     if (event.type === "checkout.session.completed") {
-//       const session = event.data.object;
-//       console.log(session);
-//     }
-//     res.json({ received: true });
-//   } catch (error) {
-//     console.error(error);
-//     return new Error("Failed to create webhook event");
-//   }
-// };
 
 export const stripeResolvers = {
   Mutation: {

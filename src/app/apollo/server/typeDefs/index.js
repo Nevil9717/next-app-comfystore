@@ -4,7 +4,7 @@ import { brandTypeDefs } from "./brandTypeDefs";
 import { catagoriesTypeDefs } from "./catagoriesTypeDefs";
 import { colorTypeDefs } from "./colorTypeDefs";
 import { cartTypeDefs } from "./cartTypeDefs";
-import { orderTypeDefs } from "./orderTypeDefs";
+// import { orderTypeDefs } from "./orderTypeDefs";
 import { userTypeDefs } from "./userTypeDefs";
 import { stripeTypeDefs } from "./stripeTypeDefs";
 
@@ -14,7 +14,7 @@ const typeDefs = mergeTypeDefs([
   catagoriesTypeDefs,
   colorTypeDefs,
   cartTypeDefs,
-  orderTypeDefs,
+  // orderTypeDefs,
   userTypeDefs,
   stripeTypeDefs,
 ]);

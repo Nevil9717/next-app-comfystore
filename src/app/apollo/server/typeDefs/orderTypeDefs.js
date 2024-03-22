@@ -3,44 +3,42 @@ import gql from "graphql-tag";
 export const orderTypeDefs = gql`
   type Order {
     _id: ID
-    personalDetail: personalDetail
-    shippingAddress: shippingAddress
+    customerDetails: customerDetails
+    address: address
     paymentMethod: paymentMethod
     orderItems: [orderItems]
   }
-  input personalDetailInput {
-    firstName: String
-    lastName: String
+  input customerDetailsInput {
+    Name: String
     email: String
-    phone: String
   }
-  type personalDetail {
-    firstName: String
-    lastName: String
+  type customerDetails {
+    Name: String
     email: String
-    phone: String
   }
-  input shippingAddressInput {
-    streetAddress: String
+  input addressInput {
+    line1: String
+    line2: String
     city: String
     state: String
-    zipCode: String
+    postalCode: String
+    country: String
   }
-  type shippingAddress {
-    streetAddress: String
+  type address {
+    line1: String
+    line2: String
     city: String
     state: String
-    zipCode: String
+    postalCode: String
+    country: String
   }
-  input paymentMethodInput {
-    cardNumber: String
-    exp: String
-    cvv: Int
+  input paymentDetailsInput {
+    paymentStatus: String
+    amountTotal: String
   }
-  type paymentMethod {
-    cardNumber: Int
-    exp: String
-    cvv: Int
+  type paymentDetails {
+    paymentStatus: String
+    amountTotal: String
   }
   input orderItemsInput {
     productName: String

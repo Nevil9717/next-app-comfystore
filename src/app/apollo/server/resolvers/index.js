@@ -4,7 +4,7 @@ import { brandResolvers } from "./brandResolvers";
 import { catagoriesResolvers } from "./catagoriesResolvers";
 import { colorResolvers } from "./colorResolvers";
 import { cartResolvers } from "./cartResolvers";
-// import { orderResolvers } from "./orderResolvers";
+import { orderResolvers } from "./orderResolvers";
 import { userResolvers } from "./userResolvers";
 import { stripeResolvers } from "./stripeResolvers";
 
@@ -14,7 +14,7 @@ const resolvers = mergeResolvers([
   catagoriesResolvers,
   colorResolvers,
   cartResolvers,
-  // orderResolvers,
+  orderResolvers,
   userResolvers,
   stripeResolvers,
 ]);

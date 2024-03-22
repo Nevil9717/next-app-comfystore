@@ -36,12 +36,12 @@ const userSchema = new mongoose.Schema(
     otpCode: {
       type: Number,
     },
-    // orders: [
-    //   {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "Order",
-    //   },
-    // ],
+    orders: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Order",
+      },
+    ],
   },
   { timestamps: true }
 );

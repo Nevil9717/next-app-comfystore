@@ -3,10 +3,12 @@ import gql from "graphql-tag";
 export const orderTypeDefs = gql`
   type Order {
     _id: ID
+    userId: ID
     customerDetails: customerDetails
     address: address
-    paymentMethod: paymentMethod
-    orderItems: [orderItems]
+    paymentDetails: paymentDetails
+    products: [products]
+    orderDate: String
   }
   input customerDetailsInput {
     Name: String
@@ -17,16 +19,14 @@ export const orderTypeDefs = gql`
     email: String
   }
   input addressInput {
-    line1: String
-    line2: String
+    shippingAddress: String
     city: String
     state: String
     postalCode: String
     country: String
   }
   type address {
-    line1: String
-    line2: String
+    shippingAddress: String
     city: String
     state: String
     postalCode: String
@@ -34,20 +34,24 @@ export const orderTypeDefs = gql`
   }
   input paymentDetailsInput {
     paymentStatus: String
+    paymentMethod: String
     amountTotal: String
+    currency: String
   }
   type paymentDetails {
     paymentStatus: String
+    paymentMethod: String
     amountTotal: String
+    currency: String
   }
-  input orderItemsInput {
+  input productsInput {
     productName: String
     productQuantity: Int
     productImage: String
     productPrice: Int
     productId: String
   }
-  type orderItems {
+  type products {
     productName: String
     productQuantity: Int
     productImage: String
@@ -55,10 +59,10 @@ export const orderTypeDefs = gql`
     productId: String
   }
   input OrderInput {
-    orderItems: [orderItemsInput]
-    personalDetail: personalDetailInput
-    shippingAddress: shippingAddressInput
-    paymentMethod: paymentMethodInput
+    products: [productsInput]
+    customerDetails: customerDetailsInput
+    address: addressInput
+    paymentDetails: paymentDetailsInput
   }
   type Query {
     getOrders: [Order]

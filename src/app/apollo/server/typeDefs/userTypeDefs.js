@@ -10,7 +10,7 @@ export const userTypeDefs = gql`
     password: String
     role: RoleOptions
     isVerified: Boolean
-    #orders: [Order]
+    orders: [Order]
     otpCode: Int
   }
   type RoleOptions {

@@ -3,8 +3,8 @@ import Color from "./colorSchema";
 import Brand from "./brandSchema";
 import Catagories from "./catagoriesSchema";
 import Cart from "./cartSchema";
-// import Order from "./orderSchema";
+import Order from "./orderSchema";
 import User from "./userSchema";
 import Role from "./roleSchema";
 
-export { Product, Color, Brand, Catagories, Cart, User, Role };
+export { Product, Color, Brand, Catagories, Cart, Order, User, Role };

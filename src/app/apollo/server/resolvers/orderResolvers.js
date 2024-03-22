@@ -1,4 +1,6 @@
+import { isCustomer } from "../../../../app/utils/auth";
 import { Order } from "../../../utils/models";
+import { combineResolvers } from "graphql-resolvers";
 
 const getOrders = async () => {
   try {
@@ -18,14 +20,19 @@ const getSingleOrder = async (_, { _id }) => {
     return new Error("Error during fetching single order", error);
   }
 };
-const createOrder = async (_, { input }) => {
-  try {
-    const order = await Order.create(input);
-    return order;
-  } catch (error) {
-    return new Error("Error during creating order", error);
+const createOrder = combineResolvers(
+  isCustomer,
+  async (_, { input }, { user }) => {
+    try {
+      const order = await Order(input);
+      input.userId = user._id;
+      order.save();
+      return order;
+    } catch (error) {
+      return new Error("Error during creating order", error);
+    }
   }
-};
+);
 
 export const orderResolvers = {
   Query: {

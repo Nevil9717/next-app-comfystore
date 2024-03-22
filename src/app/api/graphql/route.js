@@ -46,7 +46,7 @@ const handler = connectDBHandler(
         return { user };
       } catch (error) {
         console.log("error msg : " + error.message);
-        throw new ApolloError("Invalid or expired token.", "UNAUTHENTICATED");
+        // throw new ApolloError("Invalid or expired token.", "UNAUTHENTICATED");
       }
     },
   })

@@ -11,6 +11,7 @@ export const userTypeDefs = gql`
     role: RoleOptions
     isVerified: Boolean
     orders: [Order]
+    cart: Cart
     otpCode: Int
   }
   type RoleOptions {

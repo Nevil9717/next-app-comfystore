@@ -1,6 +1,4 @@
-import { isCustomer } from "../../../../app/utils/auth";
 import { Cart } from "../../../utils/models";
-import { combineResolvers } from "graphql-resolvers";
 
 const addToCart = async (_, { input }, { user }) => {
   try {
@@ -41,7 +39,7 @@ const addToCart = async (_, { input }, { user }) => {
 
 const getCart = async () => {
   try {
-    const cart = await Cart.find();
+    const cart = await Cart.findOne();
     if (!cart) return "Cart is empty";
     return cart;
   } catch (error) {

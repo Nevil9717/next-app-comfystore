@@ -13,14 +13,17 @@ export const DELETE_FROM_CART = gql`
   }
 `;
 export const ADD_TO_CART = gql`
-  mutation Mutation($input: CartInput) {
+  mutation Mutation($input: cartProductInput) {
     addToCart(input: $input) {
       _id
-      productId
-      productName
-      productPrice
-      productImage
-      productQuantity
+      products {
+        productQuantity
+        productPrice
+        productName
+        productImage
+        productId
+      }
+      userId
     }
   }
 `;

@@ -1,33 +1,35 @@
 import { gql } from "@apollo/client";
 
 export const CREATE_ORDER = gql`
-  mutation CreateOrder($input: OrderInput) {
+  mutation Mutation($input: OrderInput) {
     createOrder(input: $input) {
       _id
-      orderItems {
+      address {
+        city
+        country
+        postalCode
+        shippingAddress
+        state
+      }
+      customerDetails {
+        Name
+        email
+      }
+      orderDate
+      paymentDetails {
+        amountTotal
+        currency
+        paymentMethod
+        paymentStatus
+      }
+      products {
         productId
         productImage
         productName
         productPrice
         productQuantity
       }
-      paymentMethod {
-        cardNumber
-        cvv
-        exp
-      }
-      personalDetail {
-        email
-        firstName
-        lastName
-        phone
-      }
-      shippingAddress {
-        city
-        streetAddress
-        state
-        zipCode
-      }
+      userId
     }
   }
 `;

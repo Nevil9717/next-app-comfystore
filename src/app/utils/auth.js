@@ -4,7 +4,7 @@ import { skip } from "graphql-resolvers";
 
 export const isAdmin = async (_, args, { user }) => {
   try {
-    const userData = await User.findById(user._id);
+    const userData = await User.findById({ _id: user._id, isVerified: true });
     if (!userData) return new Error("Not Authenticated");
     const roleId = await getRole("Admin");
     if (!userData.role.equals(roleId)) return new Error("Not Authorized");
@@ -15,7 +15,7 @@ export const isAdmin = async (_, args, { user }) => {
 };
 export const isCustomer = async (_, args, { user }) => {
   try {
-    const userData = await User.findById(user._id);
+    const userData = await User.findById({ _id: user._id, isVerified: true });
     if (!userData) return new Error("Not Authenticated");
     const roleId = await getRole("Customer");
     if (!userData.role.equals(roleId)) return new Error("Not Authorized");
@@ -26,7 +26,7 @@ export const isCustomer = async (_, args, { user }) => {
 };
 export const isSeller = async (_, args, { user }) => {
   try {
-    const userData = await User.findById(user._id, { password: 0 });
+    const userData = await User.findById({ _id: user._id, isVerified: true });
     if (!userData) return new Error("Not Authenticated");
     const roleId = await getRole("Seller");
     if (!userData.role.equals(roleId)) return new Error("Not Authorized");

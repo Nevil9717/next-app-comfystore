@@ -1,19 +1,44 @@
+import { isCustomer } from "../../../../app/utils/auth";
 import { Cart } from "../../../utils/models";
+import { combineResolvers } from "graphql-resolvers";
 
-const addToCart = async (_, { input }) => {
+const addToCart = async (_, { input }, { user }) => {
   try {
-    const productExists = await Cart.findOne({ productId: input.productId });
-    if (productExists) {
-      productExists.productQuantity += input.productQuantity;
-      await productExists.save();
-      return productExists;
+    if (user) {
+      const productExists = await Cart.findOne({
+        products: { $elemMatch: { productId: input.products.productId } },
+        userId: user._id,
+      });
+      if (productExists) {
+        productExists.products.productQuantity +=
+          input.products.productQuantity;
+        await productExists.save();
+        return productExists;
+      }
+      const newCart = await Cart(input);
+      newCart.userId = user._id;
+      newCart.save();
+      console.log("🚀 ~ addToCart ~ user newCart:", newCart);
+      return newCart;
+    } else {
+      const productExists = await Cart.findOne({
+        products: { $elemMatch: { productId: input.products.productId } },
+      });
+      if (productExists) {
+        productExists.products.productQuantity +=
+          input.products.productQuantity;
+        await productExists.save();
+        return productExists;
+      }
+      const newCart = await Cart(input);
+      newCart.save();
+      return newCart;
     }
-    const newCart = await Cart.create(input);
-    return newCart;
   } catch (error) {
     return new Error(error);
   }
 };
+
 const getCart = async () => {
   try {
     const cart = await Cart.find();

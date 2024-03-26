@@ -1,16 +1,16 @@
 "use client";
-import React, { use, useEffect } from "react";
-import { GET_CART } from "../../apollo/client/query/productQuery";
 import { useMutation, useQuery } from "@apollo/client";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
+import { redirectToCheckout } from "../../api/stripe";
 import {
   CLEAR_CART,
   DELETE_FROM_CART,
   UPDATE_CART,
 } from "../../apollo/client/mutation/productMutation";
-import { redirectToCheckout } from "../../api/stripe";
 import { CREATE_SESSION_ID } from "../../apollo/client/mutation/stripeMutation";
+import { GET_CART } from "../../apollo/client/query/productQuery";
 import Loader from "../../components/ui/loader";
 
 const Cart = () => {
@@ -20,7 +20,7 @@ const Cart = () => {
   const [clearCart] = useMutation(CLEAR_CART);
   const [createPaymentSession] = useMutation(CREATE_SESSION_ID);
   const router = useRouter();
-  // let cartItems = [];
+
   const handleDelete = (productId) => {
     deleteFromCart({
       variables: {
@@ -30,18 +30,11 @@ const Cart = () => {
       refetch();
     });
   };
+
   useEffect(() => {
-    // data?.getCart?.map((item) => {
-    //   cartItems.push({
-    //     productId: item.productId,
-    //     productImage: item.productImage,
-    //     productName: item.productName,
-    //     productPrice: item.productPrice,
-    //     productQuantity: item.productQuantity,
-    //   });
-    // });
     refetch();
   }, [data]);
+
   const handlePlus = (productId, productQuantity) => {
     if (productQuantity < 5) {
       updateCartQuantity({
@@ -54,6 +47,7 @@ const Cart = () => {
       });
     }
   };
+
   const handleMinus = (productId, productQuantity) => {
     if (productQuantity > 1) {
       updateCartQuantity({
@@ -64,16 +58,9 @@ const Cart = () => {
       }).then(() => {
         refetch();
       });
-    } else {
-      deleteFromCart({
-        variables: {
-          productId,
-        },
-      }).then(() => {
-        refetch();
-      });
     }
   };
+
   const handleCheckout = async () => {
     const createdSessionID = await createPaymentSession();
     const sessionId = createdSessionID?.data?.createPaymentSession?.sessionId;
@@ -84,31 +71,32 @@ const Cart = () => {
   if (error) return <p>Error: {error.message}</p>;
   return (
     <div className="h-screen bg-black pt-20">
-      {data?.getCart?.length ? (
+      {console.log("🚀 ~ Cart ~ data:", data)}
+      {data?.getCart[0]?.products?.length ? (
         <>
           <h1 className="mb-10 text-center text-2xl font-bold">Cart Items</h1>
           <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
             <div className="rounded-lg md:w-2/3">
-              {data?.getCart?.map((item) => {
+              {data?.getCart[0]?.products?.map((item) => {
                 return (
                   <div
                     className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start"
-                    key={item.productId}
+                    key={item?.productId}
                   >
                     <Image
-                      src={item.productImage}
+                      src={item?.productImage}
                       height={150}
                       width={150}
-                      alt={item.productName}
+                      alt={item?.productName}
                       className="w-full rounded-lg sm:w-40"
                     />
                     <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
                       <div className="mt-5 sm:mt-0">
                         <h2 className="text-lg font-bold text-gray-900">
-                          {item.productName}
+                          {item?.productName}
                         </h2>
                         <h2 className="text-lg font-bold text-gray-900">
-                          $ {item.productPrice}
+                          $ {item?.productPrice}
                         </h2>
                       </div>
                       <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
@@ -160,7 +148,9 @@ const Cart = () => {
                 <p className="text-gray-700">
                   $
                   {data.getCart.reduce((total, item) => {
-                    return total + item.productQuantity * item.productPrice;
+                    return Number(
+                      total + item.productQuantity * item.productPrice
+                    );
                   }, 0)}
                 </p>
               </div>
@@ -174,7 +164,7 @@ const Cart = () => {
                 <div className="">
                   <p className="mb-1 text-lg font-bold text-black ">
                     ${" "}
-                    {data.getCart.reduce((total, item) => {
+                    {data?.getCart?.reduce((total, item) => {
                       return total + item.productQuantity * item.productPrice;
                     }, 0)}{" "}
                     USD

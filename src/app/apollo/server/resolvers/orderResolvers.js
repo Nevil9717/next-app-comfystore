@@ -1,8 +1,8 @@
-import { isCustomer } from "../../../../app/utils/auth";
+import { isAdmin, isCustomer } from "../../../../app/utils/auth";
 import { Order } from "../../../utils/models";
 import { combineResolvers } from "graphql-resolvers";
 
-const getOrders = async () => {
+const getOrders = combineResolvers(isAdmin, async () => {
   try {
     const orders = await Order.find();
     if (!orders) return new Error("Orders not found");
@@ -10,7 +10,7 @@ const getOrders = async () => {
   } catch (error) {
     return new Error("Error during fetching orders", error);
   }
-};
+});
 const getSingleOrder = async (_, { _id }) => {
   try {
     const order = await Order.findById(_id);

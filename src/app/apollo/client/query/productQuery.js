@@ -69,11 +69,14 @@ export const GET_CART = gql`
   query GetCart {
     getCart {
       _id
-      productId
-      productImage
-      productName
-      productPrice
-      productQuantity
+      userId
+      products {
+        productImage
+        productName
+        productPrice
+        productQuantity
+        productId
+      }
     }
   }
 `;

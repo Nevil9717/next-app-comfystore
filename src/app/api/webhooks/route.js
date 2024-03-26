@@ -1,13 +1,12 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { stripe } from "../../../lib/stripe";
+import { Cart, Order } from "../../utils/models";
 
 const handler = async (req) => {
   if (req.method === "POST") {
     const body = await req.text();
-    console.log("🚀 ~ handler ~ body:", body);
     const signature = headers().get("stripe-signature");
-    console.log("🚀 ~ handler ~ signature:", signature);
     let event;
     try {
       event = stripe.webhooks.constructEvent(
@@ -15,7 +14,6 @@ const handler = async (req) => {
         signature,
         process.env.STRIPE_WEBHOOK_ENDPOINT_SECRET
       );
-      console.log("🚀 ~ handler ~ event: inside tryCatch", event);
     } catch (err) {
       console.error(`Webhook Error: ${err.message}`);
       return NextResponse.json(
@@ -27,7 +25,34 @@ const handler = async (req) => {
     // Handle the event based on its type
     if (event?.type === "checkout.session.completed") {
       const session = event?.data?.object;
-      console.log("event.data.object", session);
+
+      if (session.payment_status === "paid") {
+        const userId = session.metadata.userId;
+        console.log("🚀 ~ handler ~ userId:", userId);
+        const cart = await Cart.findOne({ userId });
+        console.log("🚀 ~ handler ~ cart:", cart);
+        // const newOrder = await Order.create({
+        //   userId,
+        //   paymentDetails: {
+        //     paymentStatus: session.payment_status,
+        //     paymentMethod: session.payment_method_types[0],
+        //     amountTotal: session.amount_total,
+        //     currency: session.currency,
+        //   },
+        //   address: {
+        //     shippingAddress: session.shipping.address.line1,
+        //     city: session.shipping.address.city,
+        //     state: session.shipping.address.state,
+        //     postalCode: session.shipping.address.postal_code,
+        //     country: session.shipping.address.country,
+        //   },
+        //   customerDetails: {
+        //     Name: session.customer_details.full_name,
+        //     email: session.customer_details.email,
+        //   },
+        //  products: cart.products,
+        // });
+      }
     }
 
     return NextResponse.json({ received: true }, { status: 200 });

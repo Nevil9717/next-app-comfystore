@@ -25,15 +25,11 @@ const ProductById = ({ params }) => {
     addToCart({
       variables: {
         input: {
-          products: [
-            {
-              productId: data?.getSingleProduct?._id,
-              productName: data?.getSingleProduct?.productName,
-              productPrice: data?.getSingleProduct?.price,
-              productImage: data?.getSingleProduct?.pictures[0],
-              productQuantity: count,
-            },
-          ],
+          productId: data?.getSingleProduct?._id,
+          productName: data?.getSingleProduct?.productName,
+          productPrice: data?.getSingleProduct?.price,
+          productImage: data?.getSingleProduct?.pictures[0],
+          productQuantity: count,
         },
       },
     })

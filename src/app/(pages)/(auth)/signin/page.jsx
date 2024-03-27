@@ -1,17 +1,15 @@
 "use client";
-import Link from "next/link";
-import React from "react";
-import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import { SIGN_IN_USER } from "../../../apollo/client/mutation/userMutation";
 import { useMutation } from "@apollo/client";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { SIGN_IN_USER } from "../../../apollo/client/mutation/userMutation";
 
 const page = () => {
   const router = useRouter();
   const {
     register,
     handleSubmit,
-    formState: { errors },
   } = useForm();
   const [loginUser] = useMutation(SIGN_IN_USER);
 

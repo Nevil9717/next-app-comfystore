@@ -11,11 +11,11 @@ export const orderTypeDefs = gql`
     orderDate: String
   }
   input customerDetailsInput {
-    Name: String
+    name: String
     email: String
   }
   type customerDetails {
-    Name: String
+    name: String
     email: String
   }
   input addressInput {
@@ -65,7 +65,8 @@ export const orderTypeDefs = gql`
     paymentDetails: paymentDetailsInput
   }
   type Query {
-    getOrders: [Order]
+    getOrdersByUser: [Order]
+    getOrdersByAdmin: [Order]
     getSingleOrder(_id: ID!): Order
   }
   type Mutation {

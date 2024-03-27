@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { stripe } from "../../../lib/stripe";
-import { Cart, Order } from "../../utils/models";
+import { Cart, Order, User } from "../../utils/models";
 
 const handler = async (req) => {
   if (req.method === "POST") {
@@ -28,30 +28,49 @@ const handler = async (req) => {
 
       if (session.payment_status === "paid") {
         const userId = session.metadata.userId;
-        console.log("🚀 ~ handler ~ userId:", userId);
         const cart = await Cart.findOne({ userId });
-        console.log("🚀 ~ handler ~ cart:", cart);
-        // const newOrder = await Order.create({
-        //   userId,
-        //   paymentDetails: {
-        //     paymentStatus: session.payment_status,
-        //     paymentMethod: session.payment_method_types[0],
-        //     amountTotal: session.amount_total,
-        //     currency: session.currency,
-        //   },
-        //   address: {
-        //     shippingAddress: session.shipping.address.line1,
-        //     city: session.shipping.address.city,
-        //     state: session.shipping.address.state,
-        //     postalCode: session.shipping.address.postal_code,
-        //     country: session.shipping.address.country,
-        //   },
-        //   customerDetails: {
-        //     Name: session.customer_details.full_name,
-        //     email: session.customer_details.email,
-        //   },
-        //  products: cart.products,
-        // });
+        const addressString = session.customer_details.address;
+        const shippingAddressString = `${addressString.line1} ${addressString.line2} ${addressString.city} ${addressString.state} ${addressString.postal_code} ${addressString.country}`;
+        const newOrder = await Order.create({
+          userId,
+          paymentDetails: {
+            paymentStatus: session.payment_status,
+            paymentMethod: session.payment_method_types[0],
+            amountTotal: session.amount_total / 100,
+            currency: session.currency,
+          },
+          address: {
+            shippingAddress: shippingAddressString,
+            city: session.customer_details.address.city,
+            state: session.customer_details.address.state,
+            postalCode: session.customer_details.address.postal_code,
+            country: session.customer_details.address.country,
+          },
+          customerDetails: {
+            name: session.customer_details.name,
+            email: session.customer_details.email,
+          },
+          products: cart.products,
+        });
+
+        if (newOrder) {
+          await Cart.updateOne(
+            { userId },
+            { $set: { products: [] } },
+            { new: true }
+          );
+          await User.updateOne(
+            { _id: userId },
+            { $push: { orders: newOrder._id } },
+            { new: true }
+          );
+          return NextResponse.json({ order: newOrder }, { status: 200 });
+        } else {
+          return NextResponse.json(
+            { message: "Order not created" },
+            { status: 500 }
+          );
+        }
       }
     }
 

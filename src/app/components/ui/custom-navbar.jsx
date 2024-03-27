@@ -1,8 +1,16 @@
 "use client";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
-const Navbar = ({ navItems }) => {
+const Navbar = ({ navItems, token }) => {
+  const router = useRouter();
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // useEffect(() => {
+  //   const loggedInStatus = localStorage.getItem("token");
+  //   setIsLoggedIn(!!loggedInStatus); // Convert string to boolean
+  // }, []);
   return (
     <nav className="bg-white shadow">
       <div className="container mx-auto px-6 py-3 md:flex md:justify-between md:items-center">
@@ -43,6 +51,33 @@ const Navbar = ({ navItems }) => {
                 {navItem.name}
               </Link>
             ))}
+            <div className="flex flex-col md:flex-row md:mx-6">
+              {token ? (
+                <button
+                  className="my-1 text-sm text-gray-700 font-medium hover:text-indigo-500 md:mx-4 md:my-0"
+                  onClick={() => {
+                    localStorage.removeItem("token");
+                  }}
+                >
+                  Logout
+                </button>
+              ) : (
+                <>
+                  <Link
+                    className="my-1 text-sm text-gray-700 font-medium hover:text-indigo-500 md:mx-4 md:my-0"
+                    href="/signin"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    className="my-1 text-sm text-gray-700 font-medium hover:text-indigo-500 md:mx-4 md:my-0"
+                    href="/signup"
+                  >
+                    Register
+                  </Link>
+                </>
+              )}
+            </div>
           </div>
 
           <div className="flex justify-center md:block">

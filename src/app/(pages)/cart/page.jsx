@@ -72,12 +72,12 @@ const Cart = () => {
   return (
     <div className="h-screen bg-black pt-20">
       {console.log("🚀 ~ Cart ~ data:", data)}
-      {data?.getCart[0].products?.length ? (
+      {data?.getCart.products?.length ? (
         <>
           <h1 className="mb-10 text-center text-2xl font-bold">Cart Items</h1>
           <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
             <div className="rounded-lg md:w-2/3">
-              {data?.getCart[0].products?.map((item) => {
+              {data?.getCart.products?.map((item) => {
                 return (
                   <div
                     className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start"
@@ -147,7 +147,7 @@ const Cart = () => {
                 <p className="text-gray-700">Subtotal</p>
                 <p className="text-gray-700">
                   $
-                  {data.getCart.reduce((total, item) => {
+                  {data?.getCart?.products?.reduce((total, item) => {
                     return total + item.productQuantity * item.productPrice;
                   }, 0)}
                 </p>
@@ -162,7 +162,7 @@ const Cart = () => {
                 <div className="">
                   <p className="mb-1 text-lg font-bold text-black ">
                     ${" "}
-                    {data?.getCart?.reduce((total, item) => {
+                    {data?.getCart?.products?.reduce((total, item) => {
                       return total + item.productQuantity * item.productPrice;
                     }, 0)}{" "}
                     USD

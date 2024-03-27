@@ -1,27 +1,32 @@
 import { Cart } from "../../../utils/models";
+import { combineResolvers } from "graphql-resolvers";
+import { isCustomer } from "../../../utils/auth";
 
 const addToCart = async (_, { input }, { user }) => {
   try {
     if (user) {
-      const productExists = await Cart.findOne({
-        products: { $elemMatch: { productId: input.products.productId } },
-        userId: user._id,
-      });
-      if (productExists) {
-        productExists.products.productQuantity +=
-          input.products.productQuantity;
-        await productExists.save();
-        return productExists;
+      const userCart = await Cart.findOne({ userId: user._id });
+      if (!userCart) {
+        const newCart = await Cart.create({
+          userId: user._id,
+          products: [input],
+        });
+        return newCart;
+      } else {
+        const productExists = userCart.products.find(
+          (product) => product.productId.toString() === input.productId
+        );
+        if (productExists) {
+          productExists.productQuantity += input.productQuantity;
+          await userCart.save();
+          return userCart;
+        }
+        userCart.products.push(input);
+        await userCart.save();
+        return userCart;
       }
-      const newCart = await Cart(input);
-      newCart.userId = user._id;
-      newCart.save();
-      console.log("🚀 ~ addToCart ~ user newCart:", newCart);
-      return newCart;
     } else {
-      const productExists = await Cart.findOne({
-        products: { $elemMatch: { productId: input.products.productId } },
-      });
+      const productExists = await Cart.findOne({});
       if (productExists) {
         productExists.products.productQuantity +=
           input.products.productQuantity;
@@ -37,15 +42,15 @@ const addToCart = async (_, { input }, { user }) => {
   }
 };
 
-const getCart = async () => {
+const getCart = combineResolvers(isCustomer, async (_, args, { user }) => {
   try {
-    const cart = await Cart.findOne();
+    const cart = await Cart.findOne({ userId: user._id });
     if (!cart) return "Cart is empty";
     return cart;
   } catch (error) {
     return new Error(error);
   }
-};
+});
 const deleteFromCart = async (_, { productId }) => {
   try {
     const deletedProduct = await Cart.findOneAndDelete({ productId });
@@ -55,11 +60,15 @@ const deleteFromCart = async (_, { productId }) => {
     return new Error(error);
   }
 };
-const updateCartQuantity = async (_, { productId, productQuantity }) => {
+const updateCartQuantity = async (
+  _,
+  { productId, productQuantity },
+  { user }
+) => {
   try {
     const updatedProduct = await Cart.findOneAndUpdate(
-      { productId },
-      { productQuantity },
+      { userId: user._id, products: { $elemMatch: { productId } } },
+      { "products.$.productQuantity": productQuantity },
       { new: true }
     );
     if (!updatedProduct) return "Product not found";

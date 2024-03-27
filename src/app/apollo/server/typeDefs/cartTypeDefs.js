@@ -6,9 +6,6 @@ export const cartTypeDefs = gql`
     userId: ID
     products: [cartProductsResult]
   }
-  input cartProductInput {
-    products: [CartInput]
-  }
   type cartProductsResult {
     productId: ID
     productName: String
@@ -24,10 +21,10 @@ export const cartTypeDefs = gql`
     productQuantity: Int
   }
   type Query {
-    getCart: [Cart]
+    getCart: Cart
   }
   type Mutation {
-    addToCart(input: cartProductInput): Cart
+    addToCart(input: CartInput): Cart
     deleteFromCart(productId: ID): Cart
     updateCartQuantity(productId: ID, productQuantity: Int): Cart
     clearCart: String

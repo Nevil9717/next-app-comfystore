@@ -7,6 +7,7 @@ import { cartTypeDefs } from "./cartTypeDefs";
 import { orderTypeDefs } from "./orderTypeDefs";
 import { userTypeDefs } from "./userTypeDefs";
 import { stripeTypeDefs } from "./stripeTypeDefs";
+import { wishlistTypeDefs } from "./wishlistTypeDefs";
 
 const typeDefs = mergeTypeDefs([
   productTypeDefs,
@@ -17,6 +18,7 @@ const typeDefs = mergeTypeDefs([
   orderTypeDefs,
   userTypeDefs,
   stripeTypeDefs,
+  wishlistTypeDefs,
 ]);
 
 export default typeDefs;

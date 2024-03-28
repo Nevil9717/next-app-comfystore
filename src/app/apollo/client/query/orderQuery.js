@@ -66,3 +66,37 @@ export const GET_ORDER_BY_USER = gql`
     }
   }
 `;
+
+export const GET_SINGLE_ORDER = gql`
+  query GetSingleOrder($id: ID!) {
+    getSingleOrder(_id: $id) {
+      _id
+      address {
+        state
+        shippingAddress
+        postalCode
+        country
+        city
+      }
+      customerDetails {
+        email
+        name
+      }
+      orderDate
+      paymentDetails {
+        paymentMethod
+        currency
+        amountTotal
+        paymentStatus
+      }
+      products {
+        productId
+        productImage
+        productName
+        productPrice
+        productQuantity
+      }
+      userId
+    }
+  }
+`;

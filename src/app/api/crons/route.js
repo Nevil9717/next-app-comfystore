@@ -24,4 +24,3 @@ const handler = async (req) => {
 };
 
 export { handler as GET };
-

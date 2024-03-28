@@ -28,7 +28,7 @@ const getSingleOrder = combineResolvers(
   isCustomer,
   async (_, { _id }, { user }) => {
     try {
-      const order = await Order.findById(_id);
+      const order = await Order.findOne({ _id, userId: user._id });
       if (!order) return new Error("Order not found");
       return order;
     } catch (error) {

@@ -18,23 +18,23 @@ const getWishlistByUser = combineResolvers(
 );
 const addToWishlist = combineResolvers(
   isCustomer,
-  async (_, { input }, { user }) => {
+  async (_, { productId }, { user }) => {
     try {
       const userWishList = await Wishlist.findOne({ userId: user._id });
       if (!userWishList) {
         const newWishlist = await Wishlist.create({
           userId: user._id,
-          products: [input],
+          products: [productId],
         });
         return newWishlist;
       } else {
-        const productExists = userWishList.products.find(
-          (product) => product.productId.toString() === input.productId
-        );
+        const productExists = userWishList.products.find((product) => {
+          return product.toString() === productId;
+        });
         if (productExists) {
-          return new Error("Product already exists in wishlist");
+          throw new Error("Product already exists in wishlist");
         }
-        userWishList.products.push(input);
+        userWishList.products.push(productId);
         await userWishList.save();
         return userWishList;
       }
@@ -47,12 +47,13 @@ const deleteFromWishlist = combineResolvers(
   isCustomer,
   async (_, { productId }, { user }) => {
     try {
-      const deletedProduct = await Wishlist.findOneAndDelete({
-        productId,
-        userId: user._id,
+      const wishlist = await Wishlist.findOne({ userId: user._id });
+      if (!wishlist) throw new Error("Wishlist not found");
+      wishlist.products = wishlist.products.filter((product) => {
+        return product.toString() !== productId;
       });
-      if (!deletedProduct) return new Error("Product not found in wishlist");
-      return deletedProduct;
+      await wishlist.save();
+      return wishlist;
     } catch (error) {
       return new Error("Error during deleting from wishlist", error);
     }

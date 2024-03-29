@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_PRODUCT_BY_ID } from "@/app/apollo/client/query/productQuery";
 import { ADD_TO_CART } from "../../../apollo/client/mutation/productMutation";
+import { ADD_TO_WISHLIST } from "../../../apollo/client/mutation/wishlistMutation";
 
 const ProductById = ({ params }) => {
   const { data, loading, error } = useQuery(GET_PRODUCT_BY_ID, {
@@ -17,6 +18,7 @@ const ProductById = ({ params }) => {
   const router = useRouter();
 
   const [addToCart] = useMutation(ADD_TO_CART);
+  const [addToWishlist] = useMutation(ADD_TO_WISHLIST);
   useEffect(() => {
     setMainImage(data?.getSingleProduct?.pictures[0]);
   }, [data]);
@@ -35,6 +37,19 @@ const ProductById = ({ params }) => {
     })
       .then(() => {
         router.push("/cart");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const handleAddToWishlist = () => {
+    addToWishlist({
+      variables: {
+        productId: params.id,
+      },
+    })
+      .then(() => {
+        router.push("/wishlist");
       })
       .catch((error) => {
         console.log(error);
@@ -116,6 +131,12 @@ const ProductById = ({ params }) => {
               onClick={handleAddToCart}
             >
               Add to Cart
+            </button>
+            <button
+              className="middle none center mr-3 rounded-lg bg-gradient-to-tr from-[#905353] to-[#935353] py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-[#453227] transition-all hover:shadow-md hover:shadow-[#5f4435] active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              onClick={handleAddToWishlist}
+            >
+              Add to wishlist
             </button>
           </div>
         </div>

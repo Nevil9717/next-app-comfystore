@@ -28,7 +28,6 @@ const page = ({ params }) => {
   //     paymentStatus: "paid";
   //   }
   //  userId: "6603bae63703e3636a16b6c7";
-  //  _id: "6603fee86aec953d2574d404";
   // }
 
   if (loading) return <p>Loading...</p>;

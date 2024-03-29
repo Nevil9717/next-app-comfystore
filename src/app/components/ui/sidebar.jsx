@@ -47,10 +47,10 @@ const Sidebar = () => {
           <div>
             <h3 className="text-lg font-semibold text-gray-700 ">Company</h3>
             <select className="text-gray-700">
-              {brandData?.getBrand?.map((company) => {
+              {brandData?.getBrand?.map((brand) => {
                 return (
-                  <option key={company._id} value={company}>
-                    {company.brandName}
+                  <option key={brand._id} value={brand.brandName}>
+                    {brand.brandName}
                   </option>
                 );
               })}

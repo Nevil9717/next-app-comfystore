@@ -37,4 +37,8 @@ export const productTypeDefs = gql`
   type Mutation {
     createProduct(input: productInput): Product
   }
+
+  type Subscription {
+    hello: String
+  }
 `;

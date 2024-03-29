@@ -6,14 +6,11 @@ export const wishlistTypeDefs = gql`
     userId: ID!
     products: [Product]
   }
-  input wishlistInput {
-    products: ID
-  }
   type Query {
     getWishlistByUser: Wishlist
   }
   type Mutation {
-    addToWishlist(input: wishlistInput): Wishlist
+    addToWishlist(productId: ID): Wishlist
     deleteFromWishlist(productId: ID): Wishlist
     clearWishlist: String
   }

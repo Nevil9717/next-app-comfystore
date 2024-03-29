@@ -1,5 +1,7 @@
 import { Product } from "../../../utils/models";
+import { PubSub } from "graphql-subscriptions";
 
+const pubsub = new PubSub();
 const createProduct = async (_, { input }) => {
   try {
     const skuExists = await Product.findOne({ sku: input.sku });
@@ -17,6 +19,12 @@ const getProducts = async () => {
       { path: "category", select: "catagoriesName" },
       { path: "brand", select: "brandName" },
     ]);
+    pubsub.publish("HELLO", {
+      hello: {
+        author: "Ali Baba",
+        comment: "Open sesame",
+      },
+    });
     if (!products) return new Error("product not found");
     return products;
   } catch (error) {
@@ -42,5 +50,10 @@ export const productResolvers = {
   },
   Mutation: {
     createProduct,
+  },
+  Subscription: {
+    hello: {
+      subscribe: () => pubsub.asyncIterator(["HELLO"]),
+    },
   },
 };

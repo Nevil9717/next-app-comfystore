@@ -4,12 +4,18 @@ export const colorTypeDefs = gql`
   type Color {
     _id: ID
     colorName: String
+    hexCode: String
+  }
+  input addColorInput {
+    colorName: String
+    hexCode: String
   }
   type Query {
-    getColor: [Color]
+    getAllColor: [Color]
     getSingleColor(_id: ID): Color
   }
   type Mutation {
-    createColor(colorName: String): Color
+    createColor(input: addColorInput): Color
+    updateColor(_id: ID, input: addColorInput): Color
   }
 `;

@@ -1,5 +1,6 @@
 import { Product } from "../../../utils/models";
 import { PubSub } from "graphql-subscriptions";
+import { catagoriesResolvers } from "./catagoriesResolvers";
 
 const pubsub = new PubSub();
 const createProduct = async (_, { input }) => {
@@ -13,19 +14,36 @@ const createProduct = async (_, { input }) => {
     return new Error("Error during product creation", error);
   }
 };
-const getProducts = async () => {
+const getAllProducts = async (_, args) => {
+  const { category, brand, search } = args.input;
+
   try {
+    if (category || brand || search) {
+      let query = {};
+
+      if (category) {
+        query.category = category;
+      }
+      if (brand) {
+        query.brand = brand;
+      }
+
+      if (search) {
+        query.productName = { $regex: "^" + search, $options: "i" };
+      }
+
+      const products = await Product.find(query).populate([
+        { path: "category", select: "catagoriesName" },
+        { path: "brand", select: "brandName" },
+      ]);
+      if (!products) throw new Error("product not found");
+      return products;
+    }
     const products = await Product.find().populate([
       { path: "category", select: "catagoriesName" },
       { path: "brand", select: "brandName" },
     ]);
-    pubsub.publish("HELLO", {
-      hello: {
-        author: "Ali Baba",
-        comment: "Open sesame",
-      },
-    });
-    if (!products) return new Error("product not found");
+    if (!products) throw new Error("product not found");
     return products;
   } catch (error) {
     return new Error("Error during fetching products", error);
@@ -45,7 +63,7 @@ const getSingleProduct = async (_, { _id }) => {
 };
 export const productResolvers = {
   Query: {
-    getProducts,
+    getAllProducts,
     getSingleProduct,
   },
   Mutation: {

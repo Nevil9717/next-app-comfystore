@@ -10,7 +10,6 @@ const Card = ({ product }) => {
           className="rounded-lg"
           src={product.pictures[0]}
           alt={product.productName}
-          objectFit="contain"
           width={300}
           height={300}
         />

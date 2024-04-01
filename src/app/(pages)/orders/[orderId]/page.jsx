@@ -6,29 +6,18 @@ import moment from "moment";
 import Image from "next/image";
 
 const page = ({ params }) => {
-  // params.orderId = "6603fee86aec953d2574d404";
   const { data, loading, error } = useQuery(GET_SINGLE_ORDER, {
     variables: { id: params.orderId },
   });
 
+
   const [formattedDate, setFormattedDate] = useState("");
   useEffect(() => {
-    const timestamp = data?.getSingleOrder?.orderDate; // Your timestamp
-    const parsedDate = moment(timestamp, "x"); // Parsing the timestamp using Moment.js
-    const formatted = parsedDate.format("Do MMMM YYYY [at] h:mm a"); // Formatting the date
-    setFormattedDate(formatted); // Setting the formatted date state
+    const timestamp = data?.getSingleOrder?.orderDate;
+    const parsedDate = moment(timestamp, "x");
+    const formatted = parsedDate.format("Do MMMM YYYY [at] h:mm a");
+    setFormattedDate(formatted);
   }, [data]);
-
-  // data: {
-  //   getSingleOrder: {
-  //   paymentDetails: {
-  //     amountTotal: "4860";
-  //     currency: "usd";
-  //     paymentMethod: "card";
-  //     paymentStatus: "paid";
-  //   }
-  //  userId: "6603bae63703e3636a16b6c7";
-  // }
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;

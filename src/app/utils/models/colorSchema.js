@@ -5,6 +5,10 @@ const colorSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  hexCode: {
+    type: String,
+    required: true,
+  },
 });
 
 const Color = mongoose.models.Color || mongoose.model("Color", colorSchema);

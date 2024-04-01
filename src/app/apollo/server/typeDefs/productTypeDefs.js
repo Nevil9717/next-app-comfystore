@@ -28,9 +28,14 @@ export const productTypeDefs = gql`
     pictures: [String]
     freeShipping: Boolean
   }
+  input getAllProductsInput {
+    category: ID
+    brand: ID
+    search: String
+  }
 
   type Query {
-    getProducts: [Product]
+    getAllProducts(input: getAllProductsInput): [Product]
     getSingleProduct(_id: ID): Product
   }
 

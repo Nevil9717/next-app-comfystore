@@ -1,8 +1,9 @@
 import { gql } from "@apollo/client";
 
+// change the query to get all products
 export const GET_ALL_PRODUCTS = gql`
-  query GetProducts {
-    getProducts {
+  query GetAllProducts($input: getAllProductsInput) {
+    getAllProducts(input: $input) {
       _id
       productName
       description
@@ -12,12 +13,12 @@ export const GET_ALL_PRODUCTS = gql`
       stock
       sku
       brand {
-        _id
         brandName
+        _id
       }
       category {
-        _id
         catagoriesName
+        _id
       }
       pictures
       freeShipping

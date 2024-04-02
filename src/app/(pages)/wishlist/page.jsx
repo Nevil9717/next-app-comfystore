@@ -1,5 +1,5 @@
 "use client";
-import { ADD_TO_CART } from "@/app/apollo/client/mutation/productMutation";
+import { ADD_TO_CART } from "../../apollo/client/mutation/cartMutation";
 import {
   CLEAR_WISHLIST,
   REMOVE_FROM_WISHLIST,
@@ -10,7 +10,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 const page = () => {
-  const router = useRouter()
+  const router = useRouter();
   const { data, loading, error, refetch } = useQuery(GET_WISHLIST_BY_USER);
   const [deleteFromWishlist] = useMutation(REMOVE_FROM_WISHLIST);
   const [addToCart] = useMutation(ADD_TO_CART);

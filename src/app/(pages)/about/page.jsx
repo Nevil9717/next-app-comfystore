@@ -1,6 +1,8 @@
 "use client";
-import Image from "next/image"; 
+import Image from "next/image";
 import React from "react";
+// import Notification from "../../components/ui/notification";
+// import AdminRoute from "../../utils/authFE";
 
 const About = () => {
   return (
@@ -16,6 +18,7 @@ const About = () => {
               height={500}
             />
           </div>
+
           <div className="md:7/12 lg:w-6/12">
             <h2 className="text-2xl text-white font-bold md:text-4xl">
               This is some details about us ...

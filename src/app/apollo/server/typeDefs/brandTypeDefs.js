@@ -6,7 +6,7 @@ export const brandTypeDefs = gql`
     brandName: String
   }
   type Query {
-    getBrand: [Brand]
+    getAllBrands: [Brand]
     getSingleBrand(_id: ID): Brand
   }
   type Mutation {

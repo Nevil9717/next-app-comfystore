@@ -7,15 +7,13 @@ import { SIGN_IN_USER } from "../../../apollo/client/mutation/userMutation";
 
 const page = () => {
   const router = useRouter();
-  const {
-    register,
-    handleSubmit,
-  } = useForm();
+  const { register, handleSubmit } = useForm();
   const [loginUser] = useMutation(SIGN_IN_USER);
 
   const onSubmit = async (data) => {
     loginUser({ variables: { input: data } }).then((res) => {
       localStorage.setItem("token", res?.data?.loginUser?.token);
+      localStorage.setItem("roleName", res?.data?.loginUser?.roleName);
       router.push("/");
     });
   };

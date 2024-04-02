@@ -11,7 +11,7 @@ const createCatagories = async (_, { catagoriesName }) => {
     return new Error("Error during catagories creation", error);
   }
 };
-const getCatagories = async () => {
+const getAllCatagories = async () => {
   try {
     const catagories = await Catagories.find();
     if (!catagories) return new Error("catagories not found");
@@ -32,7 +32,7 @@ const getSingleCatagories = async (_, { _id }) => {
 
 export const catagoriesResolvers = {
   Query: {
-    getCatagories,
+    getAllCatagories,
     getSingleCatagories,
   },
   Mutation: {

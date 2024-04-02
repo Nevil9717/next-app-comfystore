@@ -11,6 +11,7 @@ export const SIGN_IN_USER = gql`
   mutation LoginUser($input: loginInput) {
     loginUser(input: $input) {
       token
+      roleName
     }
   }
 `;

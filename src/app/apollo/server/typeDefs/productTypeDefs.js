@@ -26,7 +26,7 @@ export const productTypeDefs = gql`
     #colors: [ID]
     category: ID
     pictures: [String]
-    freeShipping: Boolean
+    #freeShipping: Boolean
   }
   input getAllProductsInput {
     category: ID

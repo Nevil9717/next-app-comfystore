@@ -8,7 +8,7 @@ import {
   CLEAR_CART,
   DELETE_FROM_CART,
   UPDATE_CART,
-} from "../../apollo/client/mutation/productMutation";
+} from "../../apollo/client/mutation/cartMutation";
 import { CREATE_SESSION_ID } from "../../apollo/client/mutation/stripeMutation";
 import { GET_CART } from "../../apollo/client/query/productQuery";
 import Loader from "../../components/ui/loader";

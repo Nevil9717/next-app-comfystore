@@ -63,12 +63,15 @@ const resendOTP = async (_, { email }) => {
 const loginUser = async (_, { input }) => {
   const { email, password } = input;
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email, isVerified: true }).populate({
+      path: "role",
+      select: "roleName",
+    });
     if (!user) return new Error("User Not Found");
     const isPasswordMatch = await user.isPasswordCorrect(password);
     if (!isPasswordMatch) return new Error("Incorrect Password");
     const token = await user.generateToken();
-    return { token };
+    return { token, roleName: user.role.roleName };
   } catch (error) {
     return new Error(error);
   }

@@ -1,8 +1,6 @@
 "use client";
-import {
-  GET_ALL_BRANDS,
-  GET_ALL_CATEGORIES,
-} from "@/app/apollo/client/query/productQuery";
+import { GET_ALL_BRANDS } from "@/app/apollo/client/query/brandQuery";
+import { GET_ALL_CATAGORIES } from "../../apollo/client/query/catagoriesQuery";
 import { useQuery } from "@apollo/client";
 import React from "react";
 import Loader from "./loader";
@@ -20,7 +18,7 @@ const Sidebar = ({
     data: catagoriesData,
     loading: catagoriesLoading,
     error: catagoriesError,
-  } = useQuery(GET_ALL_CATEGORIES);
+  } = useQuery(GET_ALL_CATAGORIES);
 
   const handleCategoriesSelection = (categoryId) => {
     setSelectedCategories(categoryId);
@@ -55,7 +53,7 @@ const Sidebar = ({
           <div>
             <h3 className="text-lg font-semibold text-gray-700 ">Categories</h3>
             {catagoriesLoading && <Loader />}
-            {catagoriesData?.getCatagories?.map((category) => (
+            {catagoriesData?.getAllCatagories?.map((category) => (
               <button
                 key={category._id}
                 className="text-gray-600 block hover:underline"
@@ -70,7 +68,7 @@ const Sidebar = ({
             {loading && <Loader />}
             {brandData && (
               <select className="text-gray-700" onClick={handleBrandsSelection}>
-                {brandData?.getBrand?.map((brand) => (
+                {brandData?.getAllBrands?.map((brand) => (
                   <option key={brand._id} value={brand._id}>
                     {brand.brandName}
                   </option>

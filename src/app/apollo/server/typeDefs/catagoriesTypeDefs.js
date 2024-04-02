@@ -6,7 +6,7 @@ export const catagoriesTypeDefs = gql`
     catagoriesName: String
   }
   type Query {
-    getCatagories: [Catagories]
+    getAllCatagories: [Catagories]
     getSingleCatagories(_id: ID): Catagories
   }
   type Mutation {

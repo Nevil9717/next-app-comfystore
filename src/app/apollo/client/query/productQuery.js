@@ -50,22 +50,6 @@ export const GET_PRODUCT_BY_ID = gql`
     }
   }
 `;
-export const GET_ALL_BRANDS = gql`
-  query GetBrand {
-    getBrand {
-      _id
-      brandName
-    }
-  }
-`;
-export const GET_ALL_CATEGORIES = gql`
-  query GetCatagories {
-    getCatagories {
-      _id
-      catagoriesName
-    }
-  }
-`;
 export const GET_CART = gql`
   query GetCart {
     getCart {

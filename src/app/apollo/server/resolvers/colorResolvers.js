@@ -1,6 +1,6 @@
 import { Color } from "../../../utils/models";
 
-const createColor = async (_, { input }) => {
+const createColor = async (_, { colorName }) => {
   try {
     const colorExists = await Color.findOne({ colorName });
     if (colorExists) return new Error("Color already exists");
@@ -20,6 +20,7 @@ const updateColor = async (_, { _id, input }) => {
     return new Error("Error during color update", error);
   }
 };
+
 const getColor = async () => {
   try {
     const color = await Color.find();

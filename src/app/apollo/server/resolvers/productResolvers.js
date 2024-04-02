@@ -1,13 +1,14 @@
 import { Product } from "../../../utils/models";
 import { PubSub } from "graphql-subscriptions";
-import { catagoriesResolvers } from "./catagoriesResolvers";
 
 const pubsub = new PubSub();
 const createProduct = async (_, { input }) => {
+  console.log("🚀 ~ createProduct ~ input:", input)
   try {
     const skuExists = await Product.findOne({ sku: input.sku });
     if (skuExists) throw new Error("Product with this sku already exists");
     const product = await Product.create(input);
+    console.log("🚀 ~ createProduct ~ product:", product)
     if (!product) throw new Error("Error during product creation");
     return product;
   } catch (error) {

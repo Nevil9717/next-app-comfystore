@@ -9,10 +9,8 @@ const Products = () => {
   const [selectedCategories, setSelectedCategories] = useState();
   const [selectedBrands, setSelectedBrands] = useState();
   const [search, setSearch] = useState("");
-  // const [selectedColors, setSelectedColors] = useState([]);
-  // const [isFreeShippingSelected, setIsFreeShippingSelected] = useState(false);
 
-  const { data, loading, error, refetch } = useQuery(GET_ALL_PRODUCTS, {
+  const { data, loading } = useQuery(GET_ALL_PRODUCTS, {
     variables: {
       input: {
         category: selectedCategories,

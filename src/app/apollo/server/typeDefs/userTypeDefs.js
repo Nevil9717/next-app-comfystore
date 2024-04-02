@@ -40,6 +40,7 @@ export const userTypeDefs = gql`
   }
   type loginResult {
     token: String
+    roleName: String
   }
   type Query {
     getUsers: [User]

@@ -21,7 +21,7 @@ const getSingleBrand = async (_, { _id }) => {
   }
 };
 
-const getBrand = async () => {
+const getAllBrands = async () => {
   try {
     const brand = await Brand.find();
     if (!brand) return new Error("brand not found");
@@ -32,7 +32,7 @@ const getBrand = async () => {
 };
 export const brandResolvers = {
   Query: {
-    getBrand,
+    getAllBrands,
     getSingleBrand,
   },
   Mutation: {

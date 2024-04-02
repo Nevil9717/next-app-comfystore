@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_PRODUCT_BY_ID } from "@/app/apollo/client/query/productQuery";
-import { ADD_TO_CART } from "../../../apollo/client/mutation/productMutation";
+import { ADD_TO_CART } from "../../../apollo/client/mutation/cartMutation";
 import { ADD_TO_WISHLIST } from "../../../apollo/client/mutation/wishlistMutation";
 
 const ProductById = ({ params }) => {

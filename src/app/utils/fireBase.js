@@ -23,8 +23,7 @@ const analytics = getAnalytics(app);
 const messaging = getMessaging(app);
 export const requestForToken = () => {
   return getToken(messaging, {
-    vapidKey:
-      "BOaShYXRKRAvCLil4lIVGVJW8y62I5bxChjHaJCmYO9Y5d_MS0VG7iOee_X31QTDMONAyoSKSUVJu3qVkJDMMpA",
+    vapidKey: process.env.FIREBASE_VAPID_KEY,
   })
     .then((currentToken) => {
       if (currentToken) {

@@ -2,10 +2,10 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { CREATE_PRODUCT } from "../../apollo/client/mutation/productMutation";
-import { GET_ALL_BRANDS } from "../../apollo/client/query/brandQuery";
-import { GET_ALL_CATAGORIES } from "../../apollo/client/query/catagoriesQuery";
-import { UploadButton } from "../../utils/uploadthing";
+import { CREATE_PRODUCT } from "../../../../apollo/client/mutation/productMutation";
+import { GET_ALL_BRANDS } from "../../../../apollo/client/query/brandQuery";
+import { GET_ALL_CATAGORIES } from "../../../../apollo/client/query/catagoriesQuery";
+import { UploadButton } from "../../../../utils/uploadthing";
 
 const page = () => {
   const { data: brandData, loading: brandLoading } = useQuery(GET_ALL_BRANDS);

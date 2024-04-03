@@ -4,32 +4,32 @@ export const GET_ORDER_BY_ADMIN = gql`
   query GetOrdersByAdmin {
     getOrdersByAdmin {
       _id
+      userId
       address {
-        postalCode
-        shippingAddress
         state
         city
+        shippingAddress
+        postalCode
         country
       }
       customerDetails {
-        name
         email
+        name
       }
-      orderDate
       paymentDetails {
-        paymentStatus
         currency
-        paymentMethod
         amountTotal
+        paymentMethod
+        paymentStatus
       }
       products {
         productId
+        productPrice 
         productImage
-        productName
-        productPrice
         productQuantity
+        productName
       }
-      userId
+      orderDate
     }
   }
 `;

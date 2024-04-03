@@ -24,6 +24,7 @@ const verifyUser = async (_, { input }) => {
   try {
     const user = await User.findOne({ email });
     if (!user) return new Error("User not found");
+    if (user.isVerified) return new Error("User already verified");
     if (user.otpCode !== otpCode) return new Error("Invalid OTP Code");
     user.isVerified = true;
     await user.save();
@@ -33,7 +34,7 @@ const verifyUser = async (_, { input }) => {
   }
 };
 
-const getUsers = combineResolvers(isAdmin, async () => {
+const getUsers = async () => {
   try {
     const users = await User.find({
       role: { $ne: await getRole("Admin") },
@@ -43,9 +44,8 @@ const getUsers = combineResolvers(isAdmin, async () => {
   } catch (error) {
     return new Error(error);
   }
-});
+};
 const resendOTP = async (_, { email }) => {
-  console.log("🚀 ~ resendOTP ~ email:", email);
   try {
     const user = await User.findOne({ email });
     if (!user) return new Error("User not found");

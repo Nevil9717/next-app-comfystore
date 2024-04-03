@@ -1,16 +1,8 @@
 "use client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 const Navbar = ({ navItems, token }) => {
-  const router = useRouter();
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  // useEffect(() => {
-  //   const loggedInStatus = localStorage.getItem("token");
-  //   setIsLoggedIn(!!loggedInStatus); // Convert string to boolean
-  // }, []);
   return (
     <nav className="bg-white shadow">
       <div className="container mx-auto px-6 py-3 md:flex md:justify-between md:items-center">

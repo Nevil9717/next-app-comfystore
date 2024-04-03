@@ -14,7 +14,7 @@ const getOrdersByUser = combineResolvers(
     }
   }
 );
-const getOrdersByAdmin = combineResolvers(isAdmin, async () => {
+const getOrdersByAdmin = async () => {
   try {
     const orders = await Order.find();
     if (!orders) return new Error("Orders not found");
@@ -22,7 +22,7 @@ const getOrdersByAdmin = combineResolvers(isAdmin, async () => {
   } catch (error) {
     return new Error("Error during fetching orders", error);
   }
-});
+};
 
 const getSingleOrder = combineResolvers(
   isCustomer,

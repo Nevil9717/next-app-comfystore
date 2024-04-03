@@ -1,15 +1,16 @@
 "use client";
 import { useQuery } from "@apollo/client";
-import React, { useEffect, useState } from "react";
-import { GET_SINGLE_ORDER } from "../../../apollo/client/query/orderQuery";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import moment from "moment";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { GET_SINGLE_ORDER } from "../../../apollo/client/query/orderQuery";
+import PDFInvoice from "../../../utils/generatePdf";
 
 const page = ({ params }) => {
   const { data, loading, error } = useQuery(GET_SINGLE_ORDER, {
     variables: { id: params.orderId },
   });
-
 
   const [formattedDate, setFormattedDate] = useState("");
   useEffect(() => {
@@ -28,12 +29,20 @@ const page = ({ params }) => {
           Order #{data?.getSingleOrder?._id}
         </h1>
         <p className="text-base font-medium leading-6 text-gray-300">
-          {formattedDate}
+          Order Date: {formattedDate}
         </p>
+
+        <PDFDownloadLink
+          document={<PDFInvoice order={data.getSingleOrder} />}
+          fileName="invoice.pdf"
+          className="px-2 py-2  space-x-2 bg-[#ffffff] text-black rounded-lg"
+        >
+          Download Invoice
+        </PDFDownloadLink>
       </div>
       <div className="mt-10 flex flex-col xl:flex-row justify-center items-stretch  w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
         <div className="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8">
-          <div className="flex flex-col justify-start items-start bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full">
+          <div className="flex flex-col justify-start items-start bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full rounded-lg">
             <p className="text-lg md:text-xl font-semibold leading-6 xl:leading-5 text-gray-800">
               Customer’s Order
             </p>
@@ -88,7 +97,7 @@ const page = ({ params }) => {
             ))}
           </div>
           <div className="flex justify-center md:flex-row flex-col items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
-            <div className="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 space-y-6   ">
+            <div className="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 space-y-6 rounded-lg">
               <h3 className="text-xl font-semibold leading-5 text-gray-800">
                 Summary
               </h3>
@@ -119,7 +128,7 @@ const page = ({ params }) => {
             </div>
           </div>
         </div>
-        <div className="bg-gray-50 w-full xl:w-96 flex justify-between items-center md:items-start px-4 py-6 md:p-6 xl:p-8 flex-col ">
+        <div className="bg-gray-50 w-full xl:w-96 flex justify-between items-center md:items-start px-4 py-6 md:p-6 xl:p-8 flex-col rounded-lg">
           <h3 className="text-xl font-semibold leading-5 text-gray-800">
             Customer
           </h3>

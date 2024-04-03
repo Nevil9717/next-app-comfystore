@@ -29,6 +29,7 @@ const createPaymentSession = combineResolvers(
         // cancel_url: `${process.env.CLIENT_URL}/cancel`,
         success_url: `${process.env.NGROK_URL}/success`,
         cancel_url: `${process.env.NGROK_URL}/cancel`,
+        customer_email: user.email,
       });
       return { sessionId: session.id };
     } catch (error) {

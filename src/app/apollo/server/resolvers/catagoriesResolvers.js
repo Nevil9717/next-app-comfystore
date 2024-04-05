@@ -29,6 +29,19 @@ const getSingleCatagories = async (_, { _id }) => {
     return new Error("Error during fetching catagories", error);
   }
 };
+const updateCatagories = async (_, { _id, catagoriesName }) => {
+  try {
+    const catagories = await Catagories.findOneAndUpdate(
+      { _id },
+      { catagoriesName },
+      { new: true }
+    );
+    if (!catagories) return new Error("catagories not found");
+    return catagories;
+  } catch (error) {
+    return new Error("Error during updating catagories", error);
+  }
+};
 
 export const catagoriesResolvers = {
   Query: {
@@ -37,5 +50,6 @@ export const catagoriesResolvers = {
   },
   Mutation: {
     createCatagories,
+    updateCatagories,
   },
 };

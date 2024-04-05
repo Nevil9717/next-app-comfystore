@@ -11,5 +11,6 @@ export const brandTypeDefs = gql`
   }
   type Mutation {
     createBrand(brandName: String): Brand
+    updateBrand(_id: ID, brandName: String): Brand
   }
 `;

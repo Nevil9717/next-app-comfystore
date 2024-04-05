@@ -30,6 +30,19 @@ const getAllBrands = async () => {
     return new Error("Error during fetching brand", error);
   }
 };
+const updateBrand = async (_, { _id, brandName }) => {
+  try {
+    const brand = await Brand.findOneAndUpdate(
+      { _id },
+      { brandName },
+      { new: true }
+    );
+    if (!brand) return new Error("brand not found");
+    return brand;
+  } catch (error) {
+    return new Error("Error during updating brand", error);
+  }
+};
 export const brandResolvers = {
   Query: {
     getAllBrands,
@@ -37,5 +50,6 @@ export const brandResolvers = {
   },
   Mutation: {
     createBrand,
+    updateBrand,
   },
 };

@@ -8,3 +8,11 @@ export const CREATE_BRAND = gql`
     }
   }
 `;
+export const UPDATE_BRAND = gql`
+  mutation Mutation($id: ID, $brandName: String) {
+    updateBrand(_id: $id, brandName: $brandName) {
+      _id
+      brandName
+    }
+  }
+`;

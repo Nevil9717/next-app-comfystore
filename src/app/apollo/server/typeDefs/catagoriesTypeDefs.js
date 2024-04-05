@@ -11,5 +11,6 @@ export const catagoriesTypeDefs = gql`
   }
   type Mutation {
     createCatagories(catagoriesName: String): Catagories
+    updateCatagories(_id: ID, catagoriesName: String): Catagories
   }
 `;

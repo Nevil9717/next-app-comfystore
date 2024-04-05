@@ -2,28 +2,49 @@
 import React from "react";
 import { ALL_USERS } from "../../../../apollo/client/query/userQuery";
 import { useQuery } from "@apollo/client";
+import Link from "next/link";
 
 const page = () => {
-  // const { data, loading } = useQuery(ALL_USERS);
-  
-  // if (loading) return <div>Loading...</div>;
+  const { data, loading } = useQuery(ALL_USERS);
+  if (loading) return <div>Loading...</div>;
   return (
     <div className="container px-10 mt-5 mx-auto">
-      <div className=" rounded-sm pt-10 p-8 bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-        <div className=" px-6.5 py-4">
-          <h3 className=" text-black text-3xl font-bold ">User's List</h3>
-          <table className="w-full table-auto">
-            <thead>
-              <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                <th className="min-w-[220px] px-4 py-4 font-medium text-black xl:pl-11">
-                  Name
-                </th>
-                <th className="px-4 py-4 font-medium text-black">Actions</th>
+      <div className=" rounded-sm p-8 bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+        <h3 className=" text-black text-3xl font-bold text-center mb-2">
+          User's List
+        </h3>
+
+        <table className="table-auto w-full text-left">
+          <thead>
+            <tr>
+              <th className="text-black border border-slate-600 p-3">Name</th>
+              <th className="text-black border border-slate-600 p-3">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data?.getUsers?.map((user) => (
+              <tr key={user.id}>
+                <td className="text-black border border-slate-600 p-2">
+                  {user.firstName + " " + user.lastName}
+                </td>
+                <td className="text-black border border-slate-600 p-2">
+                  <Link
+                    href={`/`}
+                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 m-2 rounded"
+                  >
+                    Update
+                  </Link>
+                  <Link
+                    href={`/`}
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 m-2 rounded"
+                  >
+                    Delete
+                  </Link>
+                </td>
               </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
